@@ -1,0 +1,47 @@
+runs: 1
+seed: -1
+debug: True
+train:
+  epochs: 10
+  lr: 2.0e-05
+  batch_size: 16
+  fraction: 1.0
+  seq_len: 512
+  optimizer:
+    name: adamw
+    params:
+      betas: [0.9, 0.98]
+      eps: 1.0e-06
+      weight_decay: 0.1
+  scheduler:
+    name: linear
+    warmup_ratio: 0.06
+    params: {}
+model:
+  name: roberta-base
+fnmodel:
+  name: none
+  factorize_freq: 1  # factorize every n epochs
+  factorize_level: epoch  # ["epoch", "none"]
+  ignore_list: True # use predefined `ignore_list` consisting pf 'mlp'
+  params:
+    rank: 1
+    level: epoch
+    adapt_method: ab  # ["a", "b", "ab"]
+    sample_method: random  # ["random", "top", "bottom"]
+    factorize_method: equal # ["svd-equal", "svd-add", "random-add"]  (w \gets usv1 + usv2  vs.  w \gets w + usv2)
+    use_scale: False  # scale factorization by rank
+    bias_requires_grad: False  # whether to optimize bias
+    fast_mode: False  # use fast mode
+logging:
+  print_freq: 100
+  eval_freq: 100  # log every n batches
+  eval_level: epoch  # ["epoch", "batch"]
+  input_size: [4, 512]  # used to compute latency [batch_size, seq_len]
+  memory_info: True
+output:
+  path: path/to/output
+dataset:
+  name: glue
+  task_name: cola
+  cache: path/to/cache

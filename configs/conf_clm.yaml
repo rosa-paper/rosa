@@ -1,0 +1,45 @@
+runs: 1
+seed: -1 # random seed
+debug: True
+train:
+  epochs: 5
+  lr: 5e-5
+  batch_size: 10
+  fraction: 1.0 # ratio of the training set to use
+  seq_len: 512
+  optimizer:
+    name: adamw # [adam, adamw, sgd]
+    params:
+      momentum: 0.9
+      weight_decay: 0.01
+  scheduler:
+    name: linear # [linear, cosine, constant, none]
+    params:
+      num_warmup_steps: 500
+model:
+  name: gpt2  # gpt2, gpt2-medium, gpt2-large, gpt2-xl
+fnmodel:
+  name: none # [rosa, lora, none]
+  ignore_list: True # use predefined `ignore_list` consisting pf 'mlp'
+  factorize_freq: 1  # factorize every n epochs
+  factorize_level: epoch  # ["epoch", "batch", "none"]
+  params:
+    rank: 0.01  # rank of trainable parameters [float in (0,1) or int]
+    level: epoch  # ["epoch", "batch"]
+    adapt_method: none  # ["a", "b", "ab"]
+    sample_method: random  # ["random", "top", "bottom"]
+    factorize_method: equal # ["equal", "add"]  (w \gets usv1 + usv2  vs.  w \gets w + usv2)
+    ia3_mode: in  # ["in", "out"]
+    use_scale: False  # scale factorization by rank
+logging:
+  print_freq: 100  # print every n batches
+  eval_level: epoch  # ["epoch", "batch"]
+  eval_freq: 1  # evaluate every n epochs
+  input_size: [4, 512]  # used to compute latency [batch_size, seq_len]
+  memory_info: True  # record memory usage
+output:
+  path: path/to/output
+dataset:
+  name: e2e_nlg # options: eli5, e2e_nlg
+  cache: path/to/cache
+

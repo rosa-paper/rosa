@@ -1,0 +1,5 @@
+  # @package _global_
+
+dataset:
+  name: super_glue
+  task_name: wic

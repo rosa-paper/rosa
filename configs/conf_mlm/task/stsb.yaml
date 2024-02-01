@@ -1,0 +1,5 @@
+# @package _global_
+
+dataset:
+  name: glue
+  task_name: stsb

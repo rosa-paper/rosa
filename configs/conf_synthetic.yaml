@@ -1,0 +1,27 @@
+seed: 42 # random seed
+exps:
+  name: rosa_vs_lora
+  true_rank: 24
+  peft_rank_max: 24
+  peft_rank_step: 8
+  factorize_steps: 24  # factorize every n epochs
+  factorize_warmup: 4  # start to factorize after n epochs
+train:
+  epochs: 200
+  batch_size: 64
+  lr: 1e-3
+  optimizer:
+    name: adamw # [adam, adamw, sgd]
+model:
+  name: linear  # [linear, mlp2, mlp3]
+  params:
+    hidden_size: 64
+    bias: False
+output: path/to/output
+log_freq: 5000  # print every n batches
+data:
+  in_f: 512
+  out_f: 32
+  n_train_samples: 5000
+  n_valid_samples: 1000
+
